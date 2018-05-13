@@ -1,0 +1,27 @@
+BEGIN TRAN
+SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED
+GO
+SELECT * INTO ##Load
+FROM tbl10
+WHERE name='sample00'
+GO
+
+------------------------------
+DECLARE @f VARBINARY
+SELECT @f=Modified FROM ##Load
+UPDATE tbl10
+SET name='changed'
+WHERE name='sample00' AND Modified=@f
+IF @@ROWCOUNT>0
+BEGIN
+	PRINT 'Done'
+	DROP TABLE ##Load
+	COMMIT TRAN
+END
+ELSE  
+BEGIN
+	PRINT 'Fail !'
+	DROP TABLE ##Load
+	ROLLBACK TRAN	
+END
+

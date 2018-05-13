@@ -1,0 +1,37 @@
+DECLARE @OI INT,@OJ INT,@I INT,@J  INT
+SET @I=12
+SET @J=9
+SET @OI=@I
+SET @OJ=@J
+WHILE (@I % @J !=0)
+BEGIN
+	DECLARE @T INT
+	SELECT @T=@I
+	SET @I=@J
+	SET @J=@T % @J
+END
+PRINT CAST((@OI*@OJ)/@J AS VARCHAR(50))
+
+
+DECLARE @Dec INT,@Bin VARCHAR(50)
+SET @Dec=8
+SET @Bin=''
+WHILE (@Dec <>0)
+BEGIN
+	SET @Bin=CAST(@Dec %2 AS VARCHAR(1))+@Bin
+	SET @Dec=@Dec/2
+END
+PRINT @Bin
+
+
+DECLARE @Dec INT,@Bin VARCHAR(50),@P INT
+SET @Dec=0
+SET @P=1
+SET @Bin='1000'
+WHILE(@Bin<>'')
+BEGIN
+	SET @Dec=@Dec+CAST(RIGHT(@Bin,1) AS INT)*@P
+	SET @P=@P*2
+	SET @Bin=LEFT(@Bin,LEN(@Bin)-1)
+END
+PRINT CAST(@Dec AS VARCHAR(50))
